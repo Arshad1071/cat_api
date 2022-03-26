@@ -1,0 +1,24 @@
+body {
+  background: linear-gradient(to right, #00aaff, #00ff6c);
+}
+img {
+  width: 90px;
+  height: 90px;
+}
+.container-one {
+  padding: 5%;
+  width: inherit;
+  opacity: 0.8;
+}
+.game-board {
+  display: grid;
+  grid-template-rows: 100px 100px 100px ;
+  grid-template-columns: 100px 100px 100px ;
+}
+.box {
+  border: 1px solid #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
