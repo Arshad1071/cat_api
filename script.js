@@ -3,6 +3,7 @@ const imageDispalyElement = document.getElementById("list");
 let breedList = document.getElementById("breeds");
 let categoriesList = document.getElementById("categories");
 let formData = document.getElementById("myForm");
+let paginationButtons = document.getElementById("pagination");
 
 
 
@@ -10,8 +11,9 @@ let formData = document.getElementById("myForm");
 
 class catApi {
 
-    constructor(imageDispalyElement) {
+    constructor(imageDispalyElement, breed, category) {
         this.imageDispalyElement;
+
 
         //Fetching breeds
         fetch('https://api.thecatapi.com/v1/breeds', {
@@ -25,7 +27,7 @@ class catApi {
                 response.forEach(itme => {
                     let option = document.createElement("option");
                     option.text = itme.id;
-                    breedList.add(option);
+                    breed.add(option);
                 });
             })
             .catch((error) => {
@@ -46,7 +48,7 @@ class catApi {
                     let option = document.createElement("option");
                     option.text = itme.name;
                     option.value = itme.id;
-                    categoriesList.add(option);
+                    category.add(option);
                 });
             })
             .catch((error) => {
@@ -55,30 +57,75 @@ class catApi {
 
     }
 
-
-
-    DisplayList(items, wrapper, rowsPerPage, page) {
+    DisplayList(items, wrapper) {
         wrapper.innerHTML = "";
-        page--;
-        let start = rowsPerPage * page;
-        let end = start + rowsPerPage;
-        let paginatedItms = items.slice(start, end);
-        for (let i = 0; i < paginatedItms.length; i++) {
-            console.log(items[i])
-            let item = paginatedItms[i];
+        for (let i = 0; i < items.length; i++) {
             let img = document.createElement('img');
-            img.src = item;
+            img.src = items[i];
             wrapper.appendChild(img);
         }
     }
 
+    setPagiantionButtons(currentPage) {
+
+        let previusBtn = document.createElement('li');
+        let spanStart = document.createElement("span");
+        spanStart.className = "page-link";
+        spanStart.innerText = "<<";
+        previusBtn.className = "page-item";
+        previusBtn.appendChild(spanStart);
+        paginationButtons.appendChild(previusBtn);
+
+
+        previusBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+        })
+
+        console.log(pages);
+
+        for (let i = currentPage - 2; i < currentPage + 3; i++) {
+            if (i == currentPage) {
+                let btn = document.createElement('li');
+                let aTag = document.createElement('a');
+                let currentPageSpan = document.createElement("span");
+                aTag.className = "page-link";
+                btn.className = "page-item";
+                currentPageSpan.className = "sr-only";
+                btn.appendChild(aTag);
+                aTag.appendChild(currentPageSpan);
+                aTag.innerText = i;
+                aTag.style.background = "#00ff6c"
+                paginationButtons.appendChild(btn);
+
+            } else {
+                let btn = document.createElement('li');
+                let aTag = document.createElement('a');
+                aTag.className = "page-link";
+                btn.className = "page-item";
+                btn.appendChild(aTag);
+                aTag.innerText = i;
+                paginationButtons.appendChild(btn);
+            }
+
+        }
+        let nextBtn = document.createElement('li');
+        let spanEnd = document.createElement("span");
+        spanEnd.className = "page-link";
+        spanEnd.innerText = ">>";
+        nextBtn.className = "page-item";
+        nextBtn.appendChild(spanEnd);
+        paginationButtons.appendChild(nextBtn);
+        console.log(pages);
+
+    }
 }
 
-const catApiOne = new catApi(imageDispalyElement);
+const catApiOne = new catApi(imageDispalyElement, breedList, categoriesList);
 
 
 
-// Event Listener to form
+// Event Listener to form &mime_types=${type}
 formData.addEventListener("submit", (e) => {
 
     e.preventDefault();
@@ -89,21 +136,41 @@ formData.addEventListener("submit", (e) => {
     let type = formData.elements.namedItem("type").value;
     let limit = formData.elements.namedItem('limit').value;
 
-    fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}&mime_types=${type}`, {
+
+    fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}`, {
         method: 'get',
         headers: {
-            "x-api-key": apiKey
+            "x-api-key": apiKey,
         },
     })
         .then(response => response.json())
         .then(response => {
             let items = [];
-            response.forEach(itme => items.push(itme.url))
-            catApiOne.DisplayList(items, imageDispalyElement, 9, 1);
+            response.forEach(itme => {
+                items.push(itme.url);
+            });
+            catApiOne.DisplayList(items, imageDispalyElement);
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+
+    fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}`, {
+        method: 'get',
+        headers: {
+            "x-api-key": apiKey,
+        },
+    })
+        .then(response => {
+            pages = parseInt(response.headers.get("pagination-count") / limit);
+            catApiOne.setPagiantionButtons(5);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+
+
 });
 
 
