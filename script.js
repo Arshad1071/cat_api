@@ -96,7 +96,7 @@ class catApi {
             e.preventDefault();
             if (currentPage < totalPage) {
                 currentPage++;
-                catApiOne.getImages(currentPage);
+                this.getImages(currentPage);
             } else {
                 alert("Maximum pages avilable for this selection is " + totalPage);
             }
@@ -108,7 +108,7 @@ class catApi {
             e.preventDefault();
             if (currentPage > 1) {
                 currentPage--;
-                catApiOne.getImages(currentPage);
+                this.getImages(currentPage);
             } else {
                 alert("Page count is starts from 1");
             }
@@ -136,7 +136,7 @@ class catApi {
                 response.forEach(itme => {
                     items.push(itme.url);
                 });
-                catApiOne.DisplayList(items, imageDispalyElement);
+                this.DisplayList(items, imageDispalyElement);
             })
             .catch((error) => {
                 console.error('Error:', error);
