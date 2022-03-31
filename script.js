@@ -12,11 +12,11 @@ class catApi {
 
         //Fetching breeds
         fetch('https://api.thecatapi.com/v1/breeds', {
-                method: 'get',
-                headers: {
-                    "x-api-key": apiKey
-                },
-            })
+            method: 'get',
+            headers: {
+                "x-api-key": apiKey
+            },
+        })
             .then(response => response.json())
             .then(response => {
                 response.forEach(itme => {
@@ -32,11 +32,11 @@ class catApi {
 
         //Fetching categories
         fetch('https://api.thecatapi.com/v1/categories', {
-                method: 'get',
-                headers: {
-                    "x-api-key": apiKey
-                },
-            })
+            method: 'get',
+            headers: {
+                "x-api-key": apiKey
+            },
+        })
             .then(response => response.json())
             .then(response => {
                 response.forEach(itme => {
@@ -124,13 +124,12 @@ class catApi {
         let type = formData.elements.namedItem("type").value;
         let limit = formData.elements.namedItem('limit').value;
 
-
         fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}&mime_types=${type}&page=${pageCount}`, {
-                method: 'get',
-                headers: {
-                    "x-api-key": apiKey,
-                },
-            })
+            method: 'get',
+            headers: {
+                "x-api-key": apiKey,
+            },
+        })
             .then(response => response.json())
             .then(response => {
                 let items = [];
@@ -145,11 +144,11 @@ class catApi {
 
 
         fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}&mime_types=${type}`, {
-                method: 'get',
-                headers: {
-                    "x-api-key": apiKey,
-                },
-            })
+            method: 'get',
+            headers: {
+                "x-api-key": apiKey,
+            },
+        })
             .then(response => {
                 let totalPage = parseInt(response.headers.get("pagination-count") / limit);
                 console.log("Total page", totalPage);;
@@ -157,6 +156,7 @@ class catApi {
                 catApiOne.setPagiantionButtons(pageCount, totalPage);
             })
             .catch((error) => {
+                Í
                 console.error('Error:', error);
             });
 
