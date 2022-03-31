@@ -1,34 +1,40 @@
 body {
-  background: linear-gradient(to right, #00aaff, #00ff6c);
+    background: linear-gradient(to right, #00aaff, #00ff6c);
 }
+
 img {
-  width: 90px;
-  height: 90px;
+    width: 90px;
+    height: 90px;
 }
+
 .container-one {
-  padding: 5%;
-  width: inherit;
-  opacity: 0.8;
+    padding: 5%;
+    width: inherit;
+    opacity: 0.8;
 }
+
 .game-board {
-  display: grid;
-  grid-template-rows: 100px 100px 100px ;
-  grid-template-columns: 100px 100px 100px ;
+    display: grid;
+    grid-template-rows: 100px 100px 100px;
+    grid-template-columns: 100px 100px 100px;
 }
+
 .box {
-  border: 1px solid #555;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
+    border: 1px solid #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
 }
-input[type="submit"]{
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 7px 14px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+
+input[type="submit"] {
+    background-color: #4caf50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
