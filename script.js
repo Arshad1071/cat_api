@@ -6,9 +6,7 @@ let formData = document.getElementById("myForm");
 let paginationButtons = document.getElementById("pagination");
 
 class catApi {
-
     constructor(imageDispalyElement, breed, category) {
-
         this.imageDispalyElement;
 
         //Fetching breeds
@@ -29,7 +27,6 @@ class catApi {
             .catch((error) => {
                 console.error('Error:', error);
             });
-
 
         //Fetching categories
         fetch('https://api.thecatapi.com/v1/categories', {
@@ -60,7 +57,6 @@ class catApi {
             wrapper.appendChild(img);
         }
     }
-
 
     setPagiantionButtons(currentPage, totalPage, buttonWrapper) {
 
@@ -99,10 +95,9 @@ class catApi {
                 currentPage++;
                 this.getImages(currentPage);
             } else {
-                alert("Maximum pages avilable for this selection is " + totalPage);
+                let tp = parseInt(totalPage);
+                alert("Maximum available pages for this selection is " + tp);
             }
-
-
         })
 
         previusBtn.addEventListener("click", (e) => {
@@ -143,7 +138,6 @@ class catApi {
                 console.error('Error:', error);
             });
 
-
         fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&category_ids=${category}&breed=${breed}&size=full&order=${order}&mime_types=${type}`, {
             method: 'get',
             headers: {
@@ -152,13 +146,16 @@ class catApi {
         })
             .then(response => {
                 let totalPage = parseInt(response.headers.get("pagination-count") / limit);
-                catApiOne.setPagiantionButtons(pageCount, totalPage, paginationButtons);
+                if (pageCount != 0) {
+                    catApiOne.setPagiantionButtons(pageCount, totalPage, paginationButtons);
+                } else {
+                    alert("No data found for this selection")
+                    console.log("Hi Dear");
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-
-
     }
 }
 
