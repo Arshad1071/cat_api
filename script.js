@@ -8,6 +8,7 @@ let paginationButtons = document.getElementById("pagination");
 class catApi {
 
     constructor(imageDispalyElement, breed, category) {
+
         this.imageDispalyElement;
 
         //Fetching breeds
@@ -61,16 +62,16 @@ class catApi {
     }
 
 
-    setPagiantionButtons(currentPage, totalPage) {
+    setPagiantionButtons(currentPage, totalPage, buttonWrapper) {
 
-        paginationButtons.innerHTML = "";
+        buttonWrapper.innerHTML = "";
         let previusBtn = document.createElement('li');
         let spanStart = document.createElement("span");
         spanStart.className = "page-link";
         spanStart.innerText = "<<";
         previusBtn.className = "page-item";
         previusBtn.appendChild(spanStart);
-        paginationButtons.appendChild(previusBtn);
+        buttonWrapper.appendChild(previusBtn);
 
         let btn = document.createElement('li');
         let aTag = document.createElement('a');
@@ -82,7 +83,7 @@ class catApi {
         aTag.appendChild(currentPageSpan);
         aTag.innerText = currentPage;
         aTag.style.background = "#00ff6c";
-        paginationButtons.appendChild(btn);
+        buttonWrapper.appendChild(btn);
 
         let nextBtn = document.createElement('li');
         let spanEnd = document.createElement("span");
@@ -90,7 +91,7 @@ class catApi {
         spanEnd.innerText = ">>";
         nextBtn.className = "page-item";
         nextBtn.appendChild(spanEnd);
-        paginationButtons.appendChild(nextBtn);
+        buttonWrapper.appendChild(nextBtn);
 
         nextBtn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -151,12 +152,9 @@ class catApi {
         })
             .then(response => {
                 let totalPage = parseInt(response.headers.get("pagination-count") / limit);
-                console.log("Total page", totalPage);;
-                console.log("Current page", pageCount);
-                catApiOne.setPagiantionButtons(pageCount, totalPage);
+                catApiOne.setPagiantionButtons(pageCount, totalPage, paginationButtons);
             })
             .catch((error) => {
-                Í
                 console.error('Error:', error);
             });
 
